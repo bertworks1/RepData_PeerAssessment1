@@ -2,7 +2,7 @@
 # Reproducible Research: Peer Assessment 1<hr />
 <br />
 
-This assignment uses a data set containing data recorded from a personal activity monitoring device. The data was downloaded from the [course web site](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip). The data fields in the file are 
+This assignment uses a data set containing data recorded from a personal activity monitoring device. The data was downloaded from the [course web site](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip) and unzipped. The data fields in the file are 
 - "steps" (the number of steps taken in a 5-minute interval)
 - "interval" (the time of the interval, in HM format -- no separator and no leading 0's)
 - "date" (the date of the recording, in YYYY-MM-DD format)
@@ -24,6 +24,9 @@ The data is read from the file and preprocessed prior to analyzing and plotting 
 
 
 ```r
+# Note: This script assumes that the data file has already been 
+# unzipped into the working directory.
+
 # Times in the input file (column 'interval') are given in hours 
 # and minutes in an odd format: there is no separator and leading
 # 0's are omitted. This makes it a nuisance to manipulate them. 

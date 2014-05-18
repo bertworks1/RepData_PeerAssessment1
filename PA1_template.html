@@ -185,7 +185,7 @@ hljs.initHighlightingOnLoad();
 
 <p><br /></p>
 
-<p>This assignment uses a data set containing data recorded from a personal activity monitoring device. The data was downloaded from the <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip">course web site</a>. The data fields in the file are </p>
+<p>This assignment uses a data set containing data recorded from a personal activity monitoring device. The data was downloaded from the <a href="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip">course web site</a> and unzipped. The data fields in the file are </p>
 
 <ul>
 <li>&ldquo;steps&rdquo; (the number of steps taken in a 5-minute interval)</li>
@@ -207,7 +207,10 @@ hljs.initHighlightingOnLoad();
 
 <p>The data is read from the file and preprocessed prior to analyzing and plotting it. </p>
 
-<pre><code class="r"># Times in the input file (column &#39;interval&#39;) are given in hours 
+<pre><code class="r"># Note: This script assumes that the data file has already been 
+# unzipped into the working directory.
+
+# Times in the input file (column &#39;interval&#39;) are given in hours 
 # and minutes in an odd format: there is no separator and leading
 # 0&#39;s are omitted. This makes it a nuisance to manipulate them. 
 # To correct that, create a new &quot;as&quot; function to add leading 0&#39;s
