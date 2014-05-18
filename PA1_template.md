@@ -9,9 +9,11 @@ This assignment uses a data set containing data recorded from a personal activit
 
 Each 5-minute interval during the days recorded is represented by one line in the file. In some cases, the "steps" data is missing, as denoted in the file by "NA".
 
-```{r globaloptions, echo=TRUE}
-opts_chunk$set(echo=TRUE, results="hide", tidy=FALSE)
+
+```r
+opts_chunk$set(echo = TRUE, results = "hide", tidy = FALSE)
 ```
+
 <br />  
 <br />  
 
@@ -20,7 +22,8 @@ opts_chunk$set(echo=TRUE, results="hide", tidy=FALSE)
 
 The data is read from the file and preprocessed prior to analyzing and plotting it. 
 
-```{r dataload}
+
+```r
 # Times in the input file (column 'interval') are given in hours 
 # and minutes in an odd format: there is no separator and leading
 # 0's are omitted. This makes it a nuisance to manipulate them. 
@@ -85,6 +88,7 @@ everyHour = seq(as.POSIXct(stepsByTime$time[1]),
 every4thHour = everyHour[(as.POSIXlt(everyHour)$hour %% 4) == 0]
 every4thHourLabel = as.character(every4thHour, "%H:%M")
 ```
+
 <br />  
 <br />  
   
@@ -93,7 +97,8 @@ every4thHourLabel = as.character(every4thHour, "%H:%M")
 
 It is informative (but not required by the assignment) to plot the total steps for each day:
 
-```{r barplot1}
+
+```r
 # Create a bar plot of the total number of steps each day. This
 # plot includes the "no data" days.
 
@@ -109,9 +114,13 @@ text(bp[NADates], 0, noDataString, cex=0.5, pos=3, offset=0.3)
 grid(nx=NA, ny=NULL)
 ```
 
+![plot of chunk barplot1](figure/barplot1.png) 
+
+
 Another informative way to view the data is with a histogram of the number of steps per day (excluding days for which data is not available):
 
-```{r histogram1}
+
+```r
 # Create a histogram of the steps-per-day distribution (without 
 # the "no data" days. 
 
@@ -122,11 +131,15 @@ mtext("(Excludes days without data.)",
       col="grey20", cex=0.9, font=3, line=0.3)
 ```
 
-The number of breaks (`r breakCount`) was chosen somewhat arbitrarily, with the goal of being informative but not excessively detailed.
+![plot of chunk histogram1](figure/histogram1.png) 
+
+
+The number of breaks (25) was chosen somewhat arbitrarily, with the goal of being informative but not excessively detailed.
 
 Statistics were computed from the recorded data. The computations exclude days for which data was not recorded. 
 
-```{r stats1}
+
+```r
 # Compute statistics for the steps per day (excluding days with  
 # no data).
 
@@ -135,8 +148,9 @@ meanStepsPerDay = stepsStats["Mean"]
 medianStepsPerDay = stepsStats["Median"]
 ```
 
-- Mean total steps per day:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**`r sprintf("%5d", meanStepsPerDay)`**
-- Median total steps per day:&nbsp;&nbsp;**`r sprintf("%5d", medianStepsPerDay)`**
+
+- Mean total steps per day:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**10766**
+- Median total steps per day:&nbsp;&nbsp;**10765**
 <br />  
 <br />  
   
@@ -145,7 +159,8 @@ medianStepsPerDay = stepsStats["Median"]
 
 The number of steps during each time interval of an average day (averaged over all days for which data is available) is shown in this time-series plot:
 
-```{r timeplot1}
+
+```r
 # Plot the average steps per interval versus time.
 
 plot(stepsByTime, type="l", xaxt="n", col="mediumblue",  
@@ -157,6 +172,11 @@ axis(1, at=every4thHour, tcl=-0.75, labels=every4thHourLabel)
 grid(nx=NA, ny=NULL)
 abline(v=everyHour, col="gray88", lty="dotted") 
 abline(v=every4thHour, col="grey72", lty="dotted") 
+```
+
+![plot of chunk timeplot1](figure/timeplot1.png) 
+
+```r
 
 # Find the interval with the highest activity (most steps).
 
@@ -166,9 +186,10 @@ mostActiveTime =
 mostActiveTime = as.character(mostActiveTime, "%H:%M")                         
 ```
 
+
 From the average interval data the 5-minute interval with the maximum average activity can be determined. 
 
-Time of maximum average activity:&nbsp;&nbsp;**`r mostActiveTime`**.  
+Time of maximum average activity:&nbsp;&nbsp;**08:35**.  
 <br />  
 <br />  
   
@@ -177,7 +198,8 @@ Time of maximum average activity:&nbsp;&nbsp;**`r mostActiveTime`**.
 
 One option for handling NA values is to impute, or estimate, what the missing values would have been. For this assignment, the chosen strategy for imputing the missing values is to use the value for the corresponding time interval averaged over the days for which data is available. A new data set was created by replacing NA's in the original data set with these imputed values.
 
-```{r impute}
+
+```r
 # Impute the missing step counts in the original data set by using   
 # the average for the corresponding interval. Fill the missing  
 # values with the imputed values to create a new data set.  
@@ -205,11 +227,13 @@ names(stepsByDayImputed) = c("date", "steps")
 stepsByDayImputed$date = as.POSIXlt(stepsByDayImputed$date)
 ```
 
-The number of data points with missing (NA) data is&nbsp;&nbsp;**`r missingDataCount`**.  
+
+The number of data points with missing (NA) data is&nbsp;&nbsp;**2304**.  
 
 The total steps for each day -- with imputed values included -- are shown in this plot:
 
-```{r barplot2}
+
+```r
 # Create a bar plot of the total number of steps each day.
 
 bp = barplot(stepsByDayImputed$steps, col=barColors, space=0.4,  
@@ -221,9 +245,13 @@ axis(1, at=bp[ticksToLabel], tcl=-0.75, hadj=0.2,
 grid(nx=NA, ny=NULL)
 ```
 
+![plot of chunk barplot2](figure/barplot2.png) 
+
+
 The histogram of the number of steps per day (including days for which data is imputed) is shown here:
 
-```{r histogram2}
+
+```r
 # Create a histogram of the steps-per-day distribution. 
 
 hist(stepsByDayImputed$steps, breaks=25, col="seagreen1",   
@@ -231,11 +259,15 @@ hist(stepsByDayImputed$steps, breaks=25, col="seagreen1",
 mtext("(Includes days with imputed data.)", col="grey20", cex=0.9, font=3, line=0.3)
 ```
 
+![plot of chunk histogram2](figure/histogram2.png) 
+
+
 The large spike in the middle of this histogram is due to the fact that the  same imputed values were used for all eight "no data" days.  
 
 Statistics were computed for the new data set. 
 
-```{r stats2}
+
+```r
 # Compute statistics for the steps per day.
 
 stepsStatsImputed = summary(stepsByDayImputed$steps, digits=5)
@@ -243,8 +275,9 @@ meanStepsPerDayImputed = stepsStatsImputed["Mean"]
 medianStepsPerDayImputed = stepsStatsImputed["Median"]
 ```
 
-- Mean total steps per day:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**`r sprintf("%5d", meanStepsPerDayImputed)`**
-- Median total steps per day:&nbsp;&nbsp;**`r sprintf("%5d", medianStepsPerDayImputed)`**
+
+- Mean total steps per day:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**10766**
+- Median total steps per day:&nbsp;&nbsp;**10766**
 
 The mean is the same as for the original data, which is to be expected given the strategy of imputing by using average values. The median, on the other hand, is different. When looking at the sorted daily averages, the imputed daily averages occupy a range in the middle of the existing daily averages (as can be seen by comparing the two histograms). Thus, it's not surprising that the old median has been nudged out and the new median falls within the block of imputed daily averages.  
 <br />  
@@ -255,7 +288,8 @@ The mean is the same as for the original data, which is to be expected given the
 
 The final part of the analysis consists of looking at the difference in activity patterns over weekends versus the patterns over weekdays. This difference can be seen in the following time-series plot:
 
-```{r weekparts}
+
+```r
 # Factor the imputed data by weekend versus weekday.
 
 dayToWeekPart = c("Sun"="weekend", "Mon"="weekday", "Tue"="weekday",  
@@ -301,6 +335,9 @@ with(stepsByTimeImputed,
      })  
 )
 ```
+
+![plot of chunk weekparts](figure/weekparts.png) 
+
 
 The weekend activity appears more sustained throughout the day. Weekday activity has a larger morning spike with lower activity the remainder of the day. Activity tapers off earlier in the evening on weekdays and starts earlier in the morning.  
 <br />  
